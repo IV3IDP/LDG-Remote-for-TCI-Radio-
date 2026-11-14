@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LDG Remote for TCI Radio by IV3IDP</title>
+<style>
+:root{--bg:#14161b;--panel:#1a1d24;--tile:#1f232b;--line:#2b303a;--ink:#e8eaef;--mut:#8b92a3;--acc:#f59e0b;--accd:#b97a12;--on:#22c55e;--off:#2d3340;--red:#ef4444;--gauge:#2a2517;--b1:#5b9cf0;--b2:#3b78d8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:12px}
+.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+h1{margin:0;font-size:22px;color:var(--acc)}h1 small{font-size:13px;font-weight:400;color:var(--mut)}
+.seg{display:flex;border:1px solid var(--accd);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:var(--tile);color:var(--acc);font-weight:600;padding:8px 14px}
+.seg button.sel{background:var(--acc);color:#14161b}
+button{background:var(--tile);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;cursor:pointer}
+button:active{transform:translateY(1px)}
+.blue{background:linear-gradient(var(--b1),var(--b2));border-color:var(--b2);color:#fff;font-weight:600}
+.stline{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--mut);margin:8px 0 12px}
+.dot{width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block;margin-right:6px}
+.dot.ok{background:var(--on)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:12px}
+@media (max-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.tile span{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.tile b{display:block;font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.tile.hi b{color:var(--acc)}
+label{font-size:12px;color:var(--mut);display:block;margin-bottom:4px}
+.fields{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+input{background:var(--tile);color:var(--ink);border:1px solid var(--accd);border-radius:8px;padding:9px;font-size:15px;min-width:220px}
+.fk{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media (max-width:640px){.fk{grid-template-columns:repeat(3,1fr)}}
+.fk button{color:var(--accd);font-weight:700;padding:12px 6px}
+.fk button i{font-style:normal;opacity:.6;margin-right:4px}
+.fk button.on{color:var(--acc);border-color:var(--accd);background:var(--panel)}
+.st{font-size:13px;color:var(--mut);margin-top:10px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:12px}
+summary{cursor:pointer;padding:11px 12px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mut);text-transform:uppercase;list-style:none}
+summary::before{content:"▾";margin-right:8px}details:not([open]) summary::before{content:"▸"}
+details>div{padding:0 12px 12px}
+svg{width:100%;max-width:420px;margin:0 auto;display:block;height:auto}
+.led{width:12px;height:12px;border-radius:50%;background:var(--off);display:inline-block}
+.led.on{background:var(--on);box-shadow:0 0 6px var(--on)}.led.red.on{background:var(--red);box-shadow:0 0 6px var(--red)}
+.bits{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mut);margin-bottom:8px}.bits b{width:14px;color:var(--ink)}
+.panelbtn{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.log{font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--mut);max-height:120px;overflow:auto;white-space:pre-wrap}
+.bl{display:flex;gap:8px;align-items:center}.bl b{width:34px;font-size:12px;color:var(--mut)}
+.bar{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:3px}
+.sg{height:24px;border-radius:2px;background:var(--off)}
+.sg.g{background:var(--on)}.sg.y{background:var(--acc)}.sg.r{background:var(--red)}
+.sc{display:flex;justify-content:space-between;margin:4px 0 14px 42px;font-size:11px;color:var(--mut)}
+.hide{display:none}
+#splash{position:fixed;inset:0;z-index:99;background:#14161b;display:flex;align-items:center;justify-content:center;transition:opacity .5s;cursor:pointer}
+#splash img{max-width:92vw;max-height:80vh;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+#splash.out{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="splash"><img src="splashscreen.png" alt="LDG Remote for TCI Radio by IV3IDP"></div>
+<div class="wrap">
+  <div class="top">
+    <h1>LDG Remote for TCI Radio <small>by IV3IDP</small></h1>
+    <div class="seg" id="tabs"><button data-t="1000" class="sel">AT-1000ProII</button><button data-t="600">AT-600ProII</button></div>
+    <button class="blue" id="set">Settings…</button>
+  </div>
+  <div class="stline">
+    <span><i class="dot" id="dT"></i><span id="tT">TCI not connected, retrying…</span></span>
+    <span><i class="dot" id="dS"></i><span id="tS">Service: demo</span></span>
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><span>Freq MHz</span><b id="vQ">—</b></div>
+    <div class="tile"><span>Power</span><b id="vF">0 W</b></div>
+    <div class="tile"><span>Reflected</span><b id="vR">0 W</b></div>
+    <div class="tile hi"><span>SWR</span><b id="vS">1.0</b></div>
+    <div class="tile"><span>Antenna</span><b id="vA">A1</b></div>
+    <div class="tile"><span>Mode</span><b id="vM">Auto</b></div>
+    <div class="tile"><span>Last tune</span><b id="vL" style="font-size:15px;margin-top:7px">—</b></div>
+  </div>
+
+  <div class="panel" id="cfg">
+    <div class="fields">
+      <div><label for="tci">TCI address</label><input id="tci" value="ws://localhost:50001"></div>
+      <button id="conn">Connect</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="fk">
+      <button data-c="ant"><i>A</i>ANT</button><button data-c="byp"><i>P</i>BYPASS</button><button data-c="auto"><i>C</i>AUTO</button>
+      <button data-c="man"><i>M</i>MANUAL</button><button data-c="mem"><i>T</i>MEM TUNE</button><button data-c="full"><i>F</i>FULL TUNE</button>
+    </div>
+    <div class="st" id="st">Ready.</div>
+  </div>
+
+  <details open><summary>Meter</summary><div>
+    <div class="bl"><b>PWR</b><div class="bar" id="bP"></div></div>
+    <div class="sc" id="scaleP"></div>
+    <div class="bl"><b>SWR</b><div class="bar" id="bS"></div></div>
+    <div class="sc" id="scaleS"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px" id="scl"><button data-m="100" class="blue">100 W</button><button data-m="1000">1000 W</button></div>
+    <div class="bl" style="margin-top:12px"><b>Demo</b><input type="range" id="dm" min="0" max="100" value="0" style="flex:1;min-width:0;padding:0;border:0;background:none"><button id="tx">TX voice</button></div>
+  </div></details>
+
+  <details open><summary>C / L relays</summary><div>
+    <div class="bits"><b>C</b><span id="cb" style="display:flex;gap:6px"></span></div>
+    <div class="bits"><b>L</b><span id="lb" style="display:flex;gap:6px"></span></div>
+    <div class="bits" style="gap:14px;margin:0"><span><i class="led" id="a1"></i> A1</span><span><i class="led" id="a2"></i> A2</span><span><i class="led red" id="by"></i> BYP</span></div>
+  </div></details>
+
+  <details><summary>Front panel</summary><div>
+    <div class="panelbtn">
+      <button data-c="func">Func</button><button data-c="cup">C Up</button><button data-c="lup">L Up</button><button data-c="full">Tune</button>
+      <button data-c="ant">Ant</button><button data-c="cdn">C Dn</button><button data-c="ldn">L Dn</button><button data-c="pwr">Power</button>
+    </div>
+  </div></details>
+
+  <details><summary>TCI commands sent to the radio</summary><div><div class="log" id="log"></div></div></details>
+</div>
+
+<script>
+const S={'1000':mk(),'600':mk()};let cur='1000',scale=100,live=false,ws=null;
+function mk(){return{ant:1,byp:false,auto:true,c:40,l:25,swr:1.0,pwr:0,tuning:false,last:'—',freq:0}}
+const $=id=>document.getElementById(id);
+function log(t){const e=$('log');e.textContent+=t+'\n';e.scrollTop=e.scrollHeight}
+function bits(el,v){el.innerHTML='';for(let i=7;i>=0;i--){const d=document.createElement('i');d.className='led'+((v>>i)&1?' on':'');el.appendChild(d)}}
+function ticks(){const r=[0,1,2,3,4,5];
+$('scaleP').innerHTML=r.map(i=>`<span>${scale*i/5}</span>`).join('');
+$('scaleS').innerHTML=r.map(i=>`<span>${(1+2*i/5).toFixed(1)}</span>`).join('');
+for(const id of['bP','bS'])$(id).innerHTML='<i class="sg"></i>'.repeat(20);$('dm').max=scale;$('dm').value=Math.min($('dm').value,scale)}
+function lit(id,n,g,y){const k=$(id).children;for(let i=0;i<k.length;i++)k[i].className='sg'+(i<n?(i<g?' g':i<y?' y':' r'):'')}
+function render(){const s=S[cur],rho=(s.swr-1)/(s.swr+1);
+lit('bP',Math.ceil(Math.min(1,s.pwr/scale)*20),12,17);lit('bS',Math.round(Math.min(1,Math.max(0,s.swr-1)/2)*20),5,10);
+$('vF').textContent=Math.round(s.pwr)+' W';$('vR').textContent=(s.pwr*rho*rho).toFixed(1)+' W';
+$('vQ').textContent=s.freq>0?s.freq.toFixed(3):'—';$('vS').textContent=s.swr.toFixed(1);$('vA').textContent='A'+s.ant;
+$('vM').textContent=s.byp?'Bypass':s.auto?'Auto':'Manual';$('vL').textContent=s.last;
+bits($('cb'),s.c);bits($('lb'),s.l);
+$('a1').className='led'+(s.ant==1?' on':'');$('a2').className='led'+(s.ant==2?' on':'');$('by').className='led red'+(s.byp?' on':'');
+document.querySelectorAll('.fk [data-c=byp]').forEach(b=>b.classList.toggle('on',s.byp));
+document.querySelectorAll('.fk [data-c=auto]').forEach(b=>b.classList.toggle('on',s.auto&&!s.byp));
+document.querySelectorAll('.fk [data-c=man]').forEach(b=>b.classList.toggle('on',!s.auto))}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function tune(kind){const s=S[cur];if(s.tuning)return;s.tuning=true;
+if(live){ws.send(JSON.stringify({tuner:cur,cmd:kind}));s.tuning=false;return}
+$('st').textContent='Tuning…';log('tune:0,true;   // carrier from the radio');
+for(let i=0;i<=20;i++){s.swr=3.2-2*i/20+(Math.random()-.5)*.2*(1-i/20);s.pwr=10+Math.random()*1.5;
+if(i%2==0){s.c=Math.floor(Math.random()*256);s.l=Math.floor(Math.random()*256)}render();await sleep(120)}
+s.swr=1.2;s.pwr=0;s.last='T · SWR 1.2';log('tune:0,false;');s.tuning=false;
+$('st').textContent=`Tune optimal, SWR 1.2:1 (${kind==='mem'?'memory':'full'}, demo)`;render()}
+function act(c){const s=S[cur];
+if(live&&!['full','mem'].includes(c)){ws.send(JSON.stringify({tuner:cur,cmd:c}));return}
+if(c==='ant')s.ant=s.ant==1?2:1;else if(c==='byp')s.byp=!s.byp;
+else if(c==='auto')s.auto=true;else if(c==='man')s.auto=false;
+else if(c==='cup')s.c=Math.min(255,s.c+1);else if(c==='cdn')s.c=Math.max(0,s.c-1);
+else if(c==='lup')s.l=Math.min(255,s.l+1);else if(c==='ldn')s.l=Math.max(0,s.l-1);
+else if(c==='full'||c==='mem')return tune(c);
+render()}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+if(b.dataset.c)act(b.dataset.c);
+if(b.dataset.t){cur=b.dataset.t;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('sel',x===b));render()}
+if(b.dataset.m){scale=+b.dataset.m;document.querySelectorAll('#scl button').forEach(x=>x.classList.toggle('blue',x===b));ticks();render()}});
+$('dm').oninput=e=>{if(!live){S[cur].pwr=+e.target.value;render()}};
+$('tx').onclick=async()=>{if(live)return;const s=S[cur];s.swr=1.3;for(let i=0;i<40;i++){s.pwr=scale*(0.25+0.65*Math.random());render();await sleep(80)}s.pwr=0;s.swr=1.0;render()};
+$('set').onclick=()=>$('cfg').classList.toggle('hide');
+function connect(){
+try{ws=new WebSocket(`${location.protocol==='https:'?'wss':'ws'}://${location.host}/ws`)}catch(e){return}
+ws.onopen=()=>{live=true;$('tS').textContent='Service: online';$('dS').classList.add('ok');ws.send(JSON.stringify({cmd:'tci',url:$('tci').value}))};
+ws.onmessage=m=>{try{const d=JSON.parse(m.data);if(d.tuner&&S[d.tuner])Object.assign(S[d.tuner],d.state||{});
+if(d.tci!==undefined){$('tT').textContent=d.tci?'TCI connected ('+$('tci').value+')':'TCI not connected, retrying…';$('dT').classList.toggle('ok',!!d.tci)}
+if(d.status)$('st').textContent=d.status;render()}catch(e){}};
+ws.onclose=ws.onerror=()=>{live=false;$('tS').textContent='Service: demo';$('dS').classList.remove('ok')}}
+$('conn').onclick=()=>{if(live)ws.send(JSON.stringify({cmd:'tci',url:$('tci').value}));else{connect();setTimeout(()=>{if(!live)$('st').textContent='Service unreachable: demo mode with simulated data.'},800)}};
+ticks();render();
+(function(){const sp=document.getElementById('splash');let seen=false;
+try{seen=sessionStorage.getItem('splash')==='1';sessionStorage.setItem('splash','1')}catch(e){}
+if(seen){sp.remove();return}
+const close=()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),600)};sp.onclick=close;setTimeout(close,2500)})();
+</script>
+</body>
+</html>
