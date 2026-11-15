@@ -1,12 +1,15 @@
 # LDG Remote for TCI Radio
 
+<img width="1568" height="583" alt="image" src="https://github.com/user-attachments/assets/45c5a37c-d7c1-44cb-9712-4728ef60361d" />
+
 Remote control of **LDG AT-1000ProII** and **AT-600ProII** automatic antenna tuners from a PC, a phone or a tablet, with **TCI** integration for SDR radios (e.g. Hermes Lite 2) to generate the tuning carrier.
 
 *by IV3IDP* · [Italiano](README.it.md)
 
 > **Status:** working prototype, developed and tested with an **AT-600ProII**. The AT-1000ProII uses the same protocol but has not been tested or calibrated yet. See [Known limitations](#known-limitations).
 
-<!-- Add a screenshot: docs/screenshot.png -->
+<img width="904" height="812" alt="image" src="https://github.com/user-attachments/assets/017e82cc-174d-4815-9a68-6511e0014ae5" />
+
 
 ## Features
 
