@@ -161,4 +161,3 @@ Progetto indipendente, **non affiliato a LDG Electronics**. LDG e i nomi AT-1000
 
 ## Licenza
 
-Non ancora specificata: aggiungi un file `LICENSE` prima della pubblicazione.
