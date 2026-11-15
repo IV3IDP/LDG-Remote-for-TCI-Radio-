@@ -1,12 +1,14 @@
 # LDG Remote for TCI Radio
 
+<img width="1568" height="583" alt="image" src="https://github.com/user-attachments/assets/69fb2edc-c557-432a-bab0-ba105cda16ee" />
+
 Controllo remoto degli accordatori automatici **LDG AT-1000ProII** e **AT-600ProII** da PC, telefono o tablet, con integrazione **TCI** per radio SDR (per esempio Hermes Lite 2) che genera la portante per l'accordatura.
 
 *di IV3IDP* · [English](README.md)
 
 > **Stato:** prototipo funzionante, sviluppato e provato con un **AT-600ProII**. L'AT-1000ProII usa lo stesso protocollo ma non è ancora stato provato né calibrato. Vedi [Limiti noti](#limiti-noti).
 
-<!-- Aggiungi uno screenshot: docs/screenshot.png -->
+<img width="904" height="812" alt="image" src="https://github.com/user-attachments/assets/e4b9ac7d-c187-46a4-b68f-7b3633748028" />
 
 ## Caratteristiche
 
