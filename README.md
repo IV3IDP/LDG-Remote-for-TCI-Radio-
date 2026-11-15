@@ -160,5 +160,3 @@ The most useful contribution is a **capture log** (`capture-*.log`, only timesta
 This is an independent project, **not affiliated with LDG Electronics**. LDG and the AT-1000ProII / AT-600ProII names are trademarks of their respective owners. The software can key a radio transmitter: use it at your own risk and in accordance with your license conditions.
 
 ## License
-
-Not yet specified: add a `LICENSE` file before publishing.
