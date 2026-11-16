@@ -37,6 +37,9 @@ Finestra nativa / Pagina web ┘
 
 - Windows a 64 bit (la finestra nativa è solo Windows; la versione web gira anche su Linux e macOS dai sorgenti).
 - Un **adattatore USB-seriale TTL a 5 V** (FTDI, CH340, CP210x...) per ogni accordatore e un cavo con spina mini-DIN a 4 poli.
+
+<img width="463" height="480" alt="FTDI_usb_ttl" src="https://github.com/user-attachments/assets/d421c6a5-9167-41b5-885a-24bf0169a147" />
+
 - Una radio o un programma SDR con **server TCI** (facoltativo: serve per accordare con una portante).
 - **.NET 8**, a meno di usare l'installer con il runtime incluso.
 
