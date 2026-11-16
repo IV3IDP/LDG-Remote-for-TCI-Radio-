@@ -38,8 +38,8 @@ Native window / Web page ───┘
 
 - Windows 64-bit (the native window is Windows only; the web version also runs on Linux/macOS from source).
 - A **5 V TTL USB-serial adapter** (FTDI, CH340, CP210x...) for each tuner, and a cable with the 4-pin mini-DIN plug.
-- 
-<img width="926" height="960" alt="FTDI_usb_ttl" src="https://github.com/user-attachments/assets/d5814fa0-5218-44c3-90da-f0c8e0f3e075" />
+
+<img width="463" height="480" alt="FTDI_usb_ttl" src="https://github.com/user-attachments/assets/d5814fa0-5218-44c3-90da-f0c8e0f3e075" />
 
 - A radio or SDR program with a **TCI server** (optional: needed for tuning with a carrier).
 - **.NET 8**, unless you use the self-contained installer.
